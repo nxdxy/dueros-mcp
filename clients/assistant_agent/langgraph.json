@@ -1,0 +1,13 @@
+{
+    "graphs": {
+      "daily_chatter_agent": "./assistant_agent/daily_chat_agent.py:daily_chatter_agent",
+      "xiaodu_assistant_agent": "./assistant_agent/xiaodu_agent.py:xiaodu_assistant_agent",
+      "common_task_agent": "./assistant_agent/common_task_agent.py:common_task_agent",
+      "agent_full": "./assistant_agent/agent_full.py:agent"
+    },
+    "python_version": "3.12",
+    "env": ".env",
+    "dependencies": [
+      "."
+    ]
+}

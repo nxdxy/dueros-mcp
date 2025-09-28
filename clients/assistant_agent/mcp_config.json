@@ -1,0 +1,31 @@
+{
+  "mcpServers":{
+    "baidu_map": {
+      "url": "https://mcp.map.baidu.com/mcp?ak=${your_api_key}",
+      "transport": "streamable_http",
+      "timeout": 30,
+      "sse_read_timeout": 300
+    },
+    "baidu_ai_search": {
+      "url": "http://appbuilder.baidu.com/v2/ai_search/mcp/sse?api_key=${your_api_key}",
+      "transport": "sse",
+      "timeout": 30,
+      "sse_read_timeout": 300
+    },
+    "aiqiyi_searchvideo": {
+      "url": "http://mpaas.iqiyi.com/mcp/searchvideo/sse?token=${your_token}",
+      "transport": "sse",
+      "timeout": 30,
+      "sse_read_timeout": 300
+    },
+    "xiaodu_mcp_server": {
+        "url": "https://xiaodu.baidu.com/dueros_mcp_server/mcp/",
+        "transport": "streamable_http",
+        "headers": {
+          "Access_Token": "${your_access_token}"
+        },
+        "timeout": 30,
+        "sse_read_timeout": 300
+      }
+  }
+}

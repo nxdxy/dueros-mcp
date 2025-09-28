@@ -207,6 +207,8 @@ Simple Chatbot: [clients/simple_chatbot/README.md](clients/simple_chatbot/README
 
 Art Gallery Agent: [clients/art_gallery_agent/README.md](clients/art_gallery_agent/README.md)
 
+Xiaodu Assistant Agent: [clients/assistant_agent/README.md](clients/assistant_agent/README.md)
+
 ## 🙏 致谢
 
 - [Model Context Protocol](https://modelcontextprotocol.io/) - MCP协议标准
