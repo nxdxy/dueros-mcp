@@ -17,7 +17,7 @@
 - **通用任务助手** (`assistant_agent/common_task_agent.py`)：根据复杂度在 GPT-4o / Claude 间切换，利用 `SummarizationNode` 控制上下文长度，并可通过 `AskHuman` 工具触发人工澄清。
 - **日常闲聊助手** (`assistant_agent/daily_chat_agent.py`)：加载 MCP 工具完成天气、新闻等实时查询，维持人设化的对话体验。
 
-### 🛠️ 工具与人类在环
+### 🛠️ 工具与Human In The Loop
 - **MCP 集成**：`mcp_config.json` 定义百度地图、AI 搜索、爱奇艺等服务，支持通过环境变量安全注入密钥。
 - **自定义客服**：`assistant_agent/tools/custom_tools.py` 演示如何以异步 HTTP 接入小度客服（示例需要替换真实入口）。
 - **人审拦截**：`assistant_agent/tools/human_in_the_loop.py` 利用 `langgraph` 的 `interrupt` 能力，对关键工具调用征询确认。
@@ -40,7 +40,6 @@
 | `evaluate/` | 基于 LangSmith 的离线评估、数据集脚本 |
 | `langgraph.json` | LangGraph CLI/Playground 配置 |
 | `mcp_config.json` | MCP Server 配置模板 |
-| `docker-compose.yml` | Redis/Postgres/LangGraph API 一键启动方案 |
 
 ## 快速开始
 
@@ -54,12 +53,11 @@ pip install -e .[dev]
 
 ### 2. 配置密钥
 ```bash
-cp mcp_config.json mcp_config.local.json  # 可选：避免覆盖模板
-cp .env .env.local                         # 建议自建环境文件
+mcp_config.json              # 模版中替换自己的api-key
+.env                         # 参考.env.example模版设置.env文件
 ```
-- 在 `.env.local` 中填充 `OPENROUTER_API_KEY`、`LANGSMITH_API_KEY`、`TAVILY_API_KEY` 等模型与评估密钥。
-- 更新 `mcp_config.local.json` 中的 `${your_api_key}`、`${your_access_token}` 占位符，或直接修改 `mcp_config.json`。
-- 启动前设置 `export MCP_CONFIG=mcp_config.local.json`（若保留模板名，可略过）。
+- 在 `.env` 中填充 `OPENROUTER_API_KEY`、`LANGSMITH_API_KEY`、`TAVILY_API_KEY` 等模型与评估密钥。
+- 更新 `mcp_config.json` 中的 `${your_api_key}`、`${your_access_token}` 占位符。
 
 ### 3. 启动 LangGraph 工作流
 ```bash
@@ -67,18 +65,6 @@ cp .env .env.local                         # 建议自建环境文件
 langgraph dev
 ```
 - `langgraph dev` 会读取 `langgraph.json`，可在 Playground 中调试 `agent_full` 或单独子图。
-- 命令行调用示例：
-```bash
-python -m langgraph_cli.run agent_full \
-  --config langgraph.json \
-  --input '{"messages": [{"role": "user", "content": "帮我调低客厅小度的音量"}]}'
-```
-
-### 4. Docker 部署（可选）
-```bash
-docker compose up --build
-```
-- `docker-compose.yml` 会启动 Redis、Postgres 与 LangGraph API，适合集成到上层服务。
 
 ## 测试与评估
 
@@ -94,11 +80,3 @@ pytest assistant_agent/tests -k classifier
 python -m evaluate.final_result_evaluation
 ```
  运行前需在 LangSmith 控制台准备对应数据集名称（脚本默认示例：`Daily Chat DataSet`）。
-
-## 贡献指南
-
-1. Fork 后新建特性分支，保持 PR 关注单一功能点。
-2. 执行 `ruff check` 与相关 `pytest`，确保文档同步。（Ruff 配置见 `pyproject.toml`）。
-3. 若新增 MCP 工具，请在 `assistant_agent/tools/` 中扩展封装，并更新本文档的目录与说明。
-
-欢迎在公司内部社区或通过负责人邮箱反馈问题与需求，共建更强大的小度多智能体助手。
